@@ -1,11 +1,18 @@
 package com.cos.security1.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cos.security1.model.User;
+import com.cos.security1.repository.UserRepository;
 
 @Controller //view 리턴
 public class IndexController {
+	@Autowired
+	private UserRepository userRepository;
 	
 	//localhost:8080/
 	//localhost:8080
@@ -32,18 +39,23 @@ public class IndexController {
 	}
 	
 	//스프링시큐리티가 해당 주소를 낚아챔 -SecurityConfig파일작동하지 않음
-	@GetMapping("/login")
-	public @ResponseBody String login() {
-		return "login";
+	@GetMapping("/loginForm")
+	public String loginForm() {
+		return "loginForm";
 	}
 	
-	@GetMapping("join")
-	public @ResponseBody String join() {
+	@GetMapping("/joinForm")
+	public String joinForm() {
+		return "joinForm";
+	}
+	
+	@PostMapping("/join")
+	public @ResponseBody String join(User user) {
+		System.out.println(user);
+		user.setRole("ROLE_USER");
+		userRepository.save(user);
+		
 		return "join";
 	}
-	
-	@GetMapping("/joinProc")
-	public @ResponseBody String joinProc() {
-		return "회원가입 완료됨!";
-	}
+
 }
