@@ -1,6 +1,7 @@
 package com.cos.security1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,9 @@ import com.cos.security1.repository.UserRepository;
 public class IndexController {
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder BCryptPasswordEncoder; 
 	
 	//localhost:8080/
 	//localhost:8080
@@ -50,12 +54,14 @@ public class IndexController {
 	}
 	
 	@PostMapping("/join")
-	public @ResponseBody String join(User user) {
+	public String join(User user) {
 		System.out.println(user);
-		user.setRole("ROLE_USER");
-		userRepository.save(user);
+		user.setRole("ROLE_USER");//default ROLE_USER
+		String rawPwd = user.getPassword();
+		user.setPassword(BCryptPasswordEncoder.encode(rawPwd));//암호화 된 비밀번호
+		userRepository.save(user);//회원가입 잘됨, 비밀번호 : 1234 => 시큐리티로 로그인할 수 없음 - 패스워드가 암호화되어있지 않음
 		
-		return "join";
+		return "redirect:/loginForm";
 	}
 
 }
