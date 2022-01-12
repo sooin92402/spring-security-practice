@@ -2,6 +2,7 @@ package com.cos.security1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,6 +70,12 @@ public class IndexController {
 	@GetMapping("/info")
 	public @ResponseBody String info() {
 		return "개인정보";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") //특정페이지 권한접근
+	@GetMapping("/data")
+	public @ResponseBody String data() {
+		return "데이터 정보";
 	}
 	
 

@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록이 돤다.//활성화
-@EnableGlobalMethodSecurity(securedEnabled = true) //secured 어노테이션 활성화
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //secured 어노테이션 활성화 ,preAuthorize어노테이션 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	//해당 메서드의 리턴되는 오프젝트를 IoC로 등록해준다.
