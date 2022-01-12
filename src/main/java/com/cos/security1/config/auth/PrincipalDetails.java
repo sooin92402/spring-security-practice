@@ -51,12 +51,12 @@ public class PrincipalDetails implements UserDetails{
 	}
 
 	@Override
-	public boolean isAccountNonExpired() {
+	public boolean isAccountNonExpired() { //계정 만료
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked() {
+	public boolean isAccountNonLocked() { //계정 잠김
 		return true;
 	}
 
