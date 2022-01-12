@@ -1,6 +1,7 @@
 package com.cos.security1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,5 +64,12 @@ public class IndexController {
 		
 		return "redirect:/loginForm";
 	}
+	
+	@Secured("ROLE_ADMIN") //특정페이지 권한접근
+	@GetMapping("/info")
+	public @ResponseBody String info() {
+		return "개인정보";
+	}
+	
 
 }
