@@ -26,9 +26,9 @@ public class IndexController {
 	private BCryptPasswordEncoder BCryptPasswordEncoder; 
 	
 	@GetMapping("/test/login")
-	public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {//DI(의존성 주입)
+	public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {//DI(의존성 주입) Authentication
 		
-		System.out.println("/test/login==================");
+		System.out.println("/test/login ===========================");
 		PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal(); //다운캐스팅
 		System.out.println("authentication:" + principalDetails.getUser());
 		
@@ -57,8 +57,11 @@ public class IndexController {
 		return "index"; //src/main/resources/templates/index.mustache
 	}
 	
+	//OAuth 로그인을 해도 PrincipalDetails
+	//일반 로그인을 해도 PrincipalDetails
 	@GetMapping("/user")
-	public @ResponseBody String user(@AuthenticationPrincipal UserDetails userDetails) {
+	public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		System.out.println("principalDetails : " +principalDetails.getUser());
 		return "user";
 	}
 	

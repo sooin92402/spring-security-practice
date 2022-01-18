@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cos.security1.config.Oauth.PrincipalOauth2UserService;
 
+import lombok.NoArgsConstructor;
 
 //1.코드 받기 2.엑세스토큰(권한) 3.사용자프로필 정보 가져옴 
 //4-1.가져온 정보를 토대로 회원가입을 자동으로 진행시키기도 함
@@ -31,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public BCryptPasswordEncoder encodePwd() {
 		return new BCryptPasswordEncoder();
 	}
+	
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

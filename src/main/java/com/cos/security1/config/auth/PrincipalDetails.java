@@ -21,12 +21,20 @@ import lombok.Data;
 //Security Session => Authentication => UserDetails (Principal Details)
 
 @Data
-public class PrincipalDetails implements UserDetails{
+public class PrincipalDetails implements UserDetails, OAuth2User{
 	
 	private User user; //콤포지션 
+	private Map<String,Object> attributes;
 	
+	//일반로그인
 	public PrincipalDetails(User user) {
 		this.user = user;
+	}
+	
+	//OAuth 로그인
+	public PrincipalDetails(User user, Map<String,Object>attributes) {
+		this.user = user;
+		this.attributes = attributes;
 	}
 
 	//해당 User의 권한을 리턴
@@ -75,6 +83,16 @@ public class PrincipalDetails implements UserDetails{
 		//사이트 1년동안 회원이 로그인을 안하면 휴면계정으로 하기로함 
 		//현재시간 = 로그인시간 => 1년을 초과하면 return false로 설정
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		return null;
 	}
 	
 }
