@@ -30,5 +30,11 @@ spring:
             client-secret: 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
             scope:            - email
             - profile
+          facebook:
+            client-id: 884363145564499
+            client-secret: 7b5826c68320c39cb2ef7807fc12a2c6
+            scope:
+            - email
+            - public_profile
             
             
