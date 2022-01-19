@@ -1,5 +1,7 @@
 package com.cos.security1.config.Oauth;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.cos.security1.config.Oauth.provider.FacebookUserInfo;
 import com.cos.security1.config.Oauth.provider.GoogleUserInfo;
+import com.cos.security1.config.Oauth.provider.NaverUserInfo;
 import com.cos.security1.config.Oauth.provider.OAuth2UserInfo;
 import com.cos.security1.config.auth.PrincipalDetails;
 import com.cos.security1.model.User;
@@ -53,8 +56,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		}else if(registrationIdInfo.equals("facebook")) {
 			System.out.println("페이스북 로그인 요청");
 			oAuth2UserInfo = new FacebookUserInfo(oauth2User.getAttributes());	
+		}else if(registrationIdInfo.equals("naver")) {
+			System.out.println("네이버 로그인 요청");
+			oAuth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));	
 		}else {
-			System.out.println("우리는 구글과 페이스북만 지원합니다.");
+			System.out.println("우리는 구글과 페이스북과 네이버만 지원합니다.");
 		}
 		
 		String provider = oAuth2UserInfo.getProvider();//google	
@@ -67,7 +73,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		User userEntity = userRepository.findByUsername(username);
 		
 		if(userEntity == null) {
-			System.out.println("로그인을 한 적이 있습니다.");
+			System.out.println("Oauth 로그인 최초입니다.");
 			userEntity = User.builder()
 					.username(username)
 					.password(password)
@@ -79,7 +85,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 					
 			userRepository.save(userEntity);
 		}else {
-			System.out.println("구글 로그인을 이미 한적이 있습니다. 당신은 자동 회원가입이 되어있습니다.");
+			System.out.println("로그인을 이미 한적이 있습니다. 당신은 자동 회원가입이 되어있습니다.");
 		}
 		
 		return new PrincipalDetails(userEntity, oauth2User.getAttributes());
